@@ -1,5 +1,5 @@
 /* global google */
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   AppBar,
   Toolbar,
@@ -21,7 +21,6 @@ import {
   GoogleMap,
   Marker
 } from "react-google-maps";
-
 import { MapDirectionsRenderer } from "./fragments/direction-renderer";
 
 const API_KEY = "AIzaSyDciBUuGsYD6gmUrEkV-24bhXvzAXiZz0g";
@@ -34,25 +33,52 @@ const MainScreen = () => {
     lat: null,
     lng: null
   });
+  const [filteredRides, setFilteredRides] = useState([]);
   const [to, setTo] = useState("");
   const [toCoords, setToCoords] = useState({
     lat: null,
     lng: null
   });
 
-  function calcDistance(p1, p2) {
-    var p1 = new google.maps.LatLng(103.780267, 1.291692);
-    var p2 = new google.maps.LatLng(1.296788, 103.778961);
-    var d = (
-      google.maps.geometry.spherical.computeDistanceBetween(p1, p2) / 1000
-    ).toFixed(2);
-    return d;
-  }
-  console.log(calcDistance());
+  // TODO: To be fetched real time from AWS
   const riders = [
-    { latitude: 34.0257449, longitude: -118.2832194 },
-    { latitude: 34.0259722, longitude: -118.2841969 }
+    { lat: 34.0257449, lng: -118.2832194 },
+    { lat: 34.0259722, lng: -118.2841969 }
   ];
+
+  // To filtered the rides which in the range of 5 kms of the driver
+  useEffect(() => {
+    if (
+      fromCoords.lat != null &&
+      fromCoords.lng != null &&
+      toCoords.lat != null &&
+      toCoords.lng != null
+    ) {
+      const l1 = new google.maps.LatLng(fromCoords.lat, fromCoords.lng);
+      const l2 = new google.maps.LatLng(toCoords.lat, toCoords.lng);
+      const d = (
+        google.maps.geometry.spherical.computeDistanceBetween(l1, l2) / 1000
+      ).toFixed(2);
+
+      const validRides = riders.map(ride => {
+        const d1 = (
+          google.maps.geometry.spherical.computeDistanceBetween(
+            new google.maps.LatLng(ride.lat, ride.lng),
+            new google.maps.LatLng(fromCoords.lat, fromCoords.lng)
+          ) / 1000
+        ).toFixed(2);
+
+        const d2 = (
+          google.maps.geometry.spherical.computeDistanceBetween(
+            new google.maps.LatLng(ride.lat, ride.lng),
+            new google.maps.LatLng(toCoords.lat, toCoords.lng)
+          ) / 1000
+        ).toFixed(2);
+        if (d1 + d2 <= d + 3.1) return ride;
+      });
+      setFilteredRides(validRides);
+    }
+  }, [fromCoords, toCoords]);
 
   const handleSelectTo = async value => {
     const results = await geocodeByAddress(value);
@@ -74,11 +100,11 @@ const MainScreen = () => {
         defaultCenter={props.defaultCenter}
         defaultZoom={props.defaultZoom}
       >
-        {/* Code to show makers on the map */}
-        {/* {props.rides.map((marker, index) => {
-          const position = { lat: marker.latitude, lng: marker.longitude };
+        {/* Code to show makers for the rides which are in the 5km range */}
+        {filteredRides.map((marker, index) => {
+          const position = { lat: marker.lat, lng: marker.lng };
           return <Marker key={index} position={position} />;
-        })} */}
+        })}
         <MapDirectionsRenderer
           places={props.places}
           rides={props.rides}
