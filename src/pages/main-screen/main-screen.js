@@ -76,10 +76,11 @@ const MainScreen = () => {
         defaultZoom={props.defaultZoom}
       >
         {/* Code to show makers for the rides which are in the 5km range */}
-        {filteredRides.map((marker, index) => {
-          const position = { lat: marker.lat, lng: marker.lng };
-          return <Marker key={index} position={position} />;
-        })}
+        {filteredRides &&
+          filteredRides.map((marker, index) => {
+            const position = { lat: marker.lat, lng: marker.lng };
+            return <Marker key={index} position={position} />;
+          })}
         <MapDirectionsRenderer
           places={props.places}
           rides={props.rides}
