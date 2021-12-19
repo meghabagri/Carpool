@@ -21,7 +21,7 @@ import {
 import { DriverContext } from "../../main-screen.provider";
 import { MapDirectionsRenderer, LeftPanelForm } from "./fragments";
 
-const API_KEY = "AIzaSyDciBUuGsYD6gmUrEkV-24bhXvzAXiZz0g";
+const API_KEY = "AIzaSyCFOxZdr5r5zsdVPG7XD2o_CAwwy2DvPqo";
 
 const MainScreen = () => {
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -189,7 +189,7 @@ const MainScreen = () => {
           places={[driverCoords.fromCoords, driverCoords.toCoords]}
           loadingElement={<div style={{ height: `100%` }} />}
           containerElement={<div style={{ height: "80vh" }} />}
-          mapElement={<div style={{ height: "100vh" }} />}
+          mapElement={<div style={{ height: "86vh" }} />}
           defaultCenter={{ lat: 27.71415, lng: -82.3583 }}
           defaultZoom={12}
         />
