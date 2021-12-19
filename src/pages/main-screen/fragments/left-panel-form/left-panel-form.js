@@ -1,5 +1,13 @@
 import React, { useState, useContext } from "react";
-import { Box, FormControl, Input, ListItemText, List } from "@mui/material";
+import {
+  Box,
+  FormControl,
+  ListItemText,
+  List,
+  Toolbar,
+  Divider,
+  TextField
+} from "@mui/material";
 import PlacesAutocomplete, {
   geocodeByAddress,
   getLatLng
@@ -26,7 +34,9 @@ const LeftPanelForm = () => {
   };
 
   return (
-    <Box sx={{ m: 2 }}>
+    <Box>
+      <Toolbar />
+      <Divider />
       <Box sx={{ m: 2 }}>
         <FormControl fullWidth>
           <PlacesAutocomplete
@@ -41,7 +51,8 @@ const LeftPanelForm = () => {
               loading
             }) => (
               <Box>
-                <Input
+                <TextField
+                  label="From"
                   autoFocus={true}
                   sx={{ width: "100%" }}
                   {...getInputProps({ placeholder: "From" })}
@@ -63,8 +74,6 @@ const LeftPanelForm = () => {
             )}
           </PlacesAutocomplete>
         </FormControl>
-      </Box>
-      <Box sx={{ m: 2 }}>
         <FormControl fullWidth>
           <PlacesAutocomplete
             value={to}
@@ -78,7 +87,8 @@ const LeftPanelForm = () => {
               loading
             }) => (
               <Box>
-                <Input
+                <TextField
+                  label="To"
                   sx={{ width: "100%" }}
                   {...getInputProps({ placeholder: "To" })}
                 />
