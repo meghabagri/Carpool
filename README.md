@@ -1,3 +1,3 @@
  ### React and Google Maps integration
 
-<img width="1437" alt="Screenshot 2021-12-18 at 10 25 47 PM" src="https://user-images.githubusercontent.com/17153660/146666087-b9b04bd4-3a54-4f5b-8756-6cd13328b1b0.png">
+<img width="1418" alt="Screenshot 2021-12-18 at 10 26 44 PM" src="https://user-images.githubusercontent.com/17153660/146666108-f7e0b781-9879-45f1-826e-7868f0849378.png">
